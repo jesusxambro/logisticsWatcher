@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import "dotenv/config";
 import morgan from 'morgan';
+import eventsRoute from './routes/events';
 
 
 const app : Express = express();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(morgan("dev"));
 
 
+app.use('/api/', eventsRoute);
 
 
 app.get("/", (req, res) => {

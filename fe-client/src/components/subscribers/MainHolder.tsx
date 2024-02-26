@@ -10,7 +10,6 @@ interface MainHolderProps {
 
 const MainHolder= ({setUserSubs, currentSubs}:MainHolderProps) => {
 
-//   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]); Green, red, and blue
 
   useEffect(() => {
     const fetchSubscriptions = async () => {

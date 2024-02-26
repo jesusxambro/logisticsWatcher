@@ -5,6 +5,8 @@ import EventNotifier from './components/EventNotifier'
 import { useState } from 'react';
 import { Subscription } from './types/Subscription';
 
+
+
 function App() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
 
