@@ -10,13 +10,13 @@ interface MainHolderProps {
 
 const MainHolder= ({setUserSubs, currentSubs}:MainHolderProps) => {
 
-//   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+//   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]); Green, red, and blue
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
       const mockSubscriptions: Subscription[] = [
-        { id: '1', name: 'Subscription A', description: 'Description for Subscription A' },
-        { id: '2', name: 'Subscription B', description: 'Description for Subscription B' },
+        { id: '1', name: 'Weekly Fuel', description: 'On hand status of fuel by Week' },
+        { id: '2', name: 'Daily Fuel', description: 'On hand status of fuel by Day' },
       ];
       setUserSubs(mockSubscriptions);
     };

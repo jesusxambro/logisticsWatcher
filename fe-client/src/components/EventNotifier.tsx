@@ -31,7 +31,7 @@ const EventNotifier = () => {
   return (
     <Box>
       {events.map(event => (
-        <Box key={event.id} p={5} shadow="md" borderWidth="1px" my={2}>
+        <Box key={event.id} p={5} shadow="md" borderWidth="1px" my={2} backgroundColor={'Highlight'}>
           {event.message}
         </Box>
       ))}
