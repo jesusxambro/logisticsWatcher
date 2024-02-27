@@ -12,4 +12,6 @@ router.get("/", async (req, res) => {
  res.json(mockedSubscriptions);
 });
 
+
+
 export default router;

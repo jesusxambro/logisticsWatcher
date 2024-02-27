@@ -2,35 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { Flex } from '@chakra-ui/react';
 import SubscriptionCard from './SubscriptionCard';
 import { Subscription } from '../../types/Subscription';
+import { UserSubscription } from '../../types/UserSubscription';
 
 interface MainHolderProps {
-    setUserSubs: React.Dispatch<React.SetStateAction<Subscription[]>>;
-    currentSubs: Subscription[];
+    setUserSubs: React.Dispatch<React.SetStateAction<UserSubscription[]>>;
+    currentSubs: UserSubscription[];
 }
 
-const MainHolder= ({setUserSubs, currentSubs}:MainHolderProps) => {
+const MainHolder= ({}:MainHolderProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [userSubscriptions, setUserSubscriptions] = useState<UserSubscription|undefined>(undefined);
 
 
   useEffect(() => {
-    const fetchSubscriptions = async () => {
-      const mockSubscriptions: Subscription[] = [
-        { id: '1', name: 'Weekly Fuel', description: 'On hand status of fuel by Week' },
-        { id: '2', name: 'Daily Fuel', description: 'On hand status of fuel by Day' },
-      ];
-      setUserSubs(mockSubscriptions);
-    };
-
-    fetchSubscriptions();
+    fetch('http://localhost:3005/api/available')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setSubscriptions(data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching data: ', error);
+        setError(error.message);
+        setIsLoading(false);
+      });
   }, []);
+
 
   return (
     <Flex direction="row" align="center" justify="center">
-      {currentSubs.map(subscription => (
+      {subscriptions.map(subscription => (
         <SubscriptionCard
+          userSubscriptions={userSubscriptions}
           key={subscription.id}
           name={subscription.name}
           description={subscription.description}
-          onSubscribe={() => alert(`Subscribed to ${subscription.name}`)}
+          onSubscribe={() => {alert(`Subscribed to ${subscription.name}`)
+          
+        }}
         />
       ))}
     </Flex>
