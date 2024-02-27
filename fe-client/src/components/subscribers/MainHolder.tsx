@@ -5,15 +5,20 @@ import { Subscription } from '../../types/Subscription';
 import { UserSubscription } from '../../types/UserSubscription';
 
 interface MainHolderProps {
-    setUserSubs: React.Dispatch<React.SetStateAction<UserSubscription[]>>;
-    currentSubs: UserSubscription[];
+  setUserSubscriptions: React.Dispatch<React.SetStateAction<Subscription[]>>;
+    userSubscriptions: Subscription[];
 }
 
-const MainHolder= ({}:MainHolderProps) => {
+export const isSubInUserSubs = (subscription: Subscription, userSub: Subscription[]) :boolean => {
+  return userSub.some(sub => sub.id === subscription.id);
+
+};
+
+const MainHolder= ({userSubscriptions, setUserSubscriptions}:MainHolderProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-  const [userSubscriptions, setUserSubscriptions] = useState<UserSubscription|undefined>(undefined);
+  // const [userSubscriptions, setUserSubscriptions] = useState<Subscription[]>([]);
 
 
   useEffect(() => {
@@ -35,6 +40,26 @@ const MainHolder= ({}:MainHolderProps) => {
       });
   }, []);
 
+  const handleSubscribe = (subscriptionToAdd: Subscription) => {
+  
+    if(isSubInUserSubs(subscriptionToAdd, userSubscriptions)){
+      const filteredSubscriptions = userSubscriptions.filter(sub => sub.id !== subscriptionToAdd.id);
+      setUserSubscriptions(filteredSubscriptions);
+      alert(`Unsubscribed from ${subscriptionToAdd.name}`);
+
+    }else{
+      const newSubscriptions = [...userSubscriptions, subscriptionToAdd];
+      setUserSubscriptions(newSubscriptions); 
+      alert(`Subscribed to ${subscriptionToAdd.name}`);    }
+  };
+
+  const handleUnsubscribe = (subscriptionToAdd: Subscription) => {
+    const tempArray: Subscription[] = userSubscriptions;
+    tempArray.splice(tempArray.indexOf(subscriptionToAdd), 1);
+    alert(`Unsubscribed from ${subscriptionToAdd.name}`);
+    setUserSubscriptions(tempArray);
+  };
+
 
   return (
     <Flex direction="row" align="center" justify="center">
@@ -42,11 +67,10 @@ const MainHolder= ({}:MainHolderProps) => {
         <SubscriptionCard
           userSubscriptions={userSubscriptions}
           key={subscription.id}
-          name={subscription.name}
-          description={subscription.description}
-          onSubscribe={() => {alert(`Subscribed to ${subscription.name}`)
-          
-        }}
+          subscription={subscription}
+          handleUnsubscribe={handleUnsubscribe}
+          onSubscribe={handleSubscribe}
+          isSubscribed={isSubInUserSubs(subscription, userSubscriptions)}
         />
       ))}
     </Flex>

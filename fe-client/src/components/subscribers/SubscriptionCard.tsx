@@ -1,34 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Text, Button } from '@chakra-ui/react';
 import { UserSubscription } from '../../types/UserSubscription';
 import { Subscription } from '../../types/Subscription';
+import { isSubInUserSubs } from './MainHolder';
 
 interface SubscriptionCardProps {
   subscription: Subscription;
-  onSubscribe: () => void;
-  userSubscriptions: UserSubscription|undefined;
+  onSubscribe: (subscriptionToAdd: Subscription) => void;
+  userSubscriptions: Subscription[];
+  handleUnsubscribe: (subscriptionToAdd: Subscription) => void;
+  isSubscribed: boolean;
 }
 
-const isSubInUserSubs = (subscription: Subscription, userSub: UserSubscription) :boolean => {
-  return userSub.subscriptions.some(sub => sub.id === subscription.id);
 
-};
 
-const SubscriptionCard = ({ subscription, onSubscribe, userSubscriptions }: SubscriptionCardProps) => {
-  const isDisabled = () => {
-    if(isSubInUserSubs(subscription, userSubscriptions!)) {
-      return true;
-  }else{ return false;}};
-  return (
+const SubscriptionCard = ({ handleUnsubscribe,
+  subscription,
+  isSubscribed,
+  onSubscribe,
+  userSubscriptions }: SubscriptionCardProps) => {
+
+    const colorScheme = isSubscribed? "red" : "blue";
+
+     return (
     <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={4} m={2}>
       <Text fontSize="xl" fontWeight="bold">{subscription.name}</Text>
       <Text my={2}>{subscription.description}</Text>
-      <Button colorScheme="blue" 
-      disabled={isDisabled()} 
-      onClick={onSubscribe}
-      >Subscribe</Button>
+      <Button colorScheme={colorScheme} 
+      onClick={ () => onSubscribe(subscription)}
+      >
+        {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+      </Button>
     </Box>
-  );
+  ); 
+  
 };
 
 export default SubscriptionCard;
