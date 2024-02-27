@@ -14,36 +14,56 @@ interface EventNotifierProps {
 const EventNotifier = ({userSubscriptions}: EventNotifierProps) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
-
   const toast = useToast();
+
   useEffect(() => {
+    let ws: WebSocket | null = null;
+
+    const connectWebSocket = () => {
+      // Assuming the WebSocket server URL is 'ws://example.com/ws'
+      // Adjust the URL as needed, possibly including subscription IDs in the query string if your server supports it
+      ws = new WebSocket('ws://example.com/ws');
+
+      ws.onopen = () => {
+        // Send subscription IDs to the server after establishing the connection
+        // This assumes the server accepts JSON with a specific format
+        const subscriptionIds = userSubscriptions.map(sub => sub.id);
+        ws!.send(JSON.stringify({ action: 'subscribe', ids: subscriptionIds }));
+      };
+
+      ws.onmessage = (event) => {
+        // Assuming server sends JSON data
+        const eventData = JSON.parse(event.data);
+        setEvents(prevEvents => [...prevEvents, eventData]);
+        // Optionally use toast for real-time notifications
+        toast({
+          title: eventData.message,
+          status: 'info',
+          duration: 10000,
+          isClosable: true,
+        });
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        ws!.close();
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+        ws = null;
+      };
+    };
+
+    connectWebSocket();
+
     // Cleanup WebSocket connection on component unmount
     return () => {
-      if (webSocket) {
-        webSocket.close();
+      if (ws) {
+        ws.close();
       }
     };
-  }, [webSocket]);
-
-  
-
-  // useEffect(() => {
-  //   const newEvent: Event = { id: 'event1', message: 'New event received!' };
-  //   setEvents(currentEvents => [...currentEvents, newEvent]);
-
-  //   const timer = setTimeout(() => {
-  //     setEvents(currentEvents => currentEvents.filter(event => event.id !== newEvent.id));
-  //     toast({
-  //       title: 'Event faded away.',
-  //       description: "An event has been automatically removed after 10 seconds.",
-  //       status: 'info',
-  //       duration: 5000,
-  //       isClosable: true,
-  //     });
-  //   }, 10000);
-
-  //   return () => clearTimeout(timer); 
-  // }, []); 
+  }, [userSubscriptions, toast]);
 
   return (
     <Box>
