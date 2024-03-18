@@ -13,7 +13,7 @@ app.use(cors());
 app.use(morgan("dev"));
 
 
-app.use('/api/', eventsRoute);
+app.use('/api', eventsRoute);
 
 app.use('/api/available/',subcriptions );
 
@@ -27,5 +27,5 @@ const port = process.env.PORT || 3000;
 
 
 app.listen(port, () =>
-  console.log(`Poke Express listening on port ${process.env.PORT}!`)
+  console.log(`LogisticsWatcher listening on port ${process.env.PORT}!`)
 );
