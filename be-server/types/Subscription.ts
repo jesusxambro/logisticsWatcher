@@ -1,5 +1,5 @@
 export type Subscription ={
-    id: number;
+    id: string;
     name: string;
     description: string;
 }
