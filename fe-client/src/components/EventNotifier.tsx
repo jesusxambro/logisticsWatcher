@@ -19,12 +19,10 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
     let ws: WebSocket | null = null;
 
     const connectWebSocket = () => {
-      // Adjust the URL to your WebSocket server
       ws = new WebSocket('ws://localhost:3006');
 
       ws.onopen = () => {
         console.log('WebSocket connected');
-        // Send a message to subscribe to specific IDs, if your server supports it
         const subscriptionIds = userSubscriptions.map(sub => sub.id);
         ws!.send(JSON.stringify({ action: 'subscribe', ids: subscriptionIds }));
       };

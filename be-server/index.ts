@@ -18,6 +18,8 @@ app.use('/api', eventsRoute);
 app.use('/api/available/',subcriptions );
 
 
+
+
 app.get("/", (req, res) => {
   return res.send("Please use the correct route.");
 });
