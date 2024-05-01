@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, useToast } from '@chakra-ui/react';
 import { Subscription } from '../types/Subscription';
+import { Event } from '../types/Event';
+import EventNotification from './EventNotification';
 
-interface Event {
-  id: string;
-  message: string;
-}
 
 interface EventNotifierProps {
   userSubscriptions: Subscription[];
@@ -14,6 +12,17 @@ interface EventNotifierProps {
 const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
   const [events, setEvents] = useState<Event[]>([]);
   const toast = useToast();
+
+  const handleEventNotificationDeletion = (idToDelete : String) => {
+    event?.preventDefault();
+    const updatedEvents = events.filter( item => item.id !== idToDelete);
+    setEvents((events) => 
+      events.filter( item => item.id !== idToDelete)
+    )
+  };
+  useEffect(()=> {
+    // console.log(JSON.stringify(events))
+  }, [events]);
 
   useEffect(() => {
     let ws: WebSocket | null = null;
@@ -64,9 +73,9 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
   return (
     <Box>
       {events.map((event, index) => (
-        <Box key={index} p={5} shadow="md" borderWidth="1px" my={2} backgroundColor="Highlight">
-          {event.message}
-        </Box>
+        <EventNotification event={event} 
+        key={index}
+        index={index} handleDelete={handleEventNotificationDeletion} />
       ))}
     </Box>
   );
