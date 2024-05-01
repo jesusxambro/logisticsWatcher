@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, useToast } from '@chakra-ui/react';
+import { Box, useColorModeValue, useToast } from '@chakra-ui/react';
 import { Subscription } from '../types/Subscription';
 import { Event } from '../types/Event';
 import EventNotification from './EventNotification';
@@ -20,9 +20,9 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
       events.filter( item => item.id !== idToDelete)
     )
   };
-  useEffect(()=> {
-    // console.log(JSON.stringify(events))
-  }, [events]);
+  // useEffect(()=> {
+  //   console.log(JSON.stringify(events))
+  // }, [events]);
 
   useEffect(() => {
     let ws: WebSocket | null = null;
@@ -40,7 +40,7 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
         const eventData = JSON.parse(event.data);
         setEvents(prevEvents => [...prevEvents, eventData]);
         toast({
-          title: 'New Event',
+          title: 'Incoming Event',
           description: eventData.message,
           status: 'info',
           duration: 9000,

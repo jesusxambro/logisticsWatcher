@@ -11,7 +11,7 @@ interface EventNotificationProps {
 }
 
 const EventNotification = ({event, index, handleDelete} : EventNotificationProps) => {
-    const bg = useColorModeValue('blue.500', 'blue.200');
+    const bg = useColorModeValue('gray.500', 'gray.700');
 
     return (
     <Box key={index} p={4}
