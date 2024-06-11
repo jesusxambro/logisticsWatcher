@@ -1,0 +1,29 @@
+name: Deploy to Fly.io
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - "be-server/**"
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+
+
+          - name: Set up Fly.io CLI
+            run: |
+                curl -L https://fly.io/install.sh | sh
+                echo "$HOME/.fly/bin" >> $GITHUB_PATH
+
+          - name: Login to Fly.io
+            run: flyctl auth token --token ${{ secrets.FLY_API_TOKEN }}
+
+          - name: Deploy to Fly.io
+            run: |
+                cd backend
+                flyctl deploy --app your-app-name --config fly.toml
