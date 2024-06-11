@@ -1,4 +1,5 @@
-export const events = [
+import {EventMessage} from "./../types/EventMessage"
+export const events: EventMessage[] = [
     {
       "id": "65fb47d71b5e6dd57195baa8",
       "fuelUsed": 728,

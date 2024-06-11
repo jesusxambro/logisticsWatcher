@@ -18,7 +18,6 @@ const MainHolder= ({userSubscriptions, setUserSubscriptions}:MainHolderProps) =>
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-  // const [userSubscriptions, setUserSubscriptions] = useState<Subscription[]>([]);
 
 
   useEffect(() => {
