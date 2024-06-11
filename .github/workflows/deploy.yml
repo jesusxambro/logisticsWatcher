@@ -5,7 +5,7 @@ on:
         branches:
             - main
         paths:
-            - "be-server/**"
+            - "./be-server/**"
 
 jobs:
     deploy:
