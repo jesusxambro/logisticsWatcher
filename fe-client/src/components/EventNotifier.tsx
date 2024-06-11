@@ -20,9 +20,6 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
       events.filter( item => item.id !== idToDelete)
     )
   };
-  // useEffect(()=> {
-  //   console.log(JSON.stringify(events))
-  // }, [events]);
 
   useEffect(() => {
     let ws: WebSocket | null = null;
