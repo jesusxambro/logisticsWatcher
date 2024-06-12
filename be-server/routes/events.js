@@ -5,7 +5,6 @@ const express_1 = require("express");
 const ws_1 = require("ws");
 const WebSocketHelpers_1 = require("../helpers/WebSocketHelpers");
 const router = (0, express_1.Router)();
-//TODO: Rename/Structure functions and variables to follow the UML
 const eventWs = new ws_1.WebSocketServer({ port: 3006 });
 const clientSubscriptions = new Map();
 eventWs.on("connection", function connection(ws) {

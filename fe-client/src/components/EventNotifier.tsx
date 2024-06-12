@@ -27,8 +27,13 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
     let ws: WebSocket | null = null;
 
     const connectWebSocket = () => {
-      ws = new WebSocket(`wss://${apiWs}:3006`);
-
+      let wsProtocol = '';
+      if (window.location.hostname === 'localhost') {
+          wsProtocol = 'ws';
+      } else {
+          wsProtocol = 'wss';
+      }
+      let ws = new WebSocket(`${wsProtocol}://${apiWs}:3006`);
       ws.onopen = () => {
         console.log('WebSocket connected');
         const subscriptionIds = userSubscriptions.map(sub => sub.id);
