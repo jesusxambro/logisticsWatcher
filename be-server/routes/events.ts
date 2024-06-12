@@ -6,7 +6,6 @@ import { EventMessage } from "../types/EventMessage";
 
 const router = Router();
 
-//TODO: Rename/Structure functions and variables to follow the UML
 
 const eventWs = new WebSocketServer({ port: 3006 });
 const clientSubscriptions = new Map<WebSocket, Set<number>>();
