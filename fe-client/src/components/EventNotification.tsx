@@ -1,5 +1,4 @@
 import { Box, IconButton, Text, useColorModeValue } from '@chakra-ui/react'
-import React from 'react'
 import { Event } from '../types/Event';
 import { CloseIcon } from '@chakra-ui/icons';
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, useColorModeValue, useToast } from '@chakra-ui/react';
+import  { useState, useEffect } from 'react';
+import { Box, useToast } from '@chakra-ui/react';
 import { Subscription } from '../types/Subscription';
 import { Event } from '../types/Event';
 import EventNotification from './EventNotification';
@@ -15,17 +15,19 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
 
   const handleEventNotificationDeletion = (idToDelete : String) => {
     event?.preventDefault();
-    const updatedEvents = events.filter( item => item.id !== idToDelete);
     setEvents((events) => 
       events.filter( item => item.id !== idToDelete)
     )
   };
 
+  const apiWs = import.meta.env.VITE_API_WS;
+
+
   useEffect(() => {
     let ws: WebSocket | null = null;
 
     const connectWebSocket = () => {
-      ws = new WebSocket('ws://localhost:3006');
+      ws = new WebSocket(`ws://${apiWs}:3006`);
 
       ws.onopen = () => {
         console.log('WebSocket connected');

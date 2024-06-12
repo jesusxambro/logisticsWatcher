@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
 import { Box, Text, Button } from '@chakra-ui/react';
-import { UserSubscription } from '../../types/UserSubscription';
 import { Subscription } from '../../types/Subscription';
-import { isSubInUserSubs } from './MainHolder';
 
 interface SubscriptionCardProps {
   subscription: Subscription;
@@ -14,11 +11,9 @@ interface SubscriptionCardProps {
 
 
 
-const SubscriptionCard = ({ handleUnsubscribe,
-  subscription,
+const SubscriptionCard = ({ subscription,
   isSubscribed,
-  onSubscribe,
-  userSubscriptions }: SubscriptionCardProps) => {
+  onSubscribe }: SubscriptionCardProps) => {
 
     const colorScheme = isSubscribed? "red" : "blue";
 

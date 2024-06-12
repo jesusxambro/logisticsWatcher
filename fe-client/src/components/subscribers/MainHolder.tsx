@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Flex } from '@chakra-ui/react';
 import SubscriptionCard from './SubscriptionCard';
 import { Subscription } from '../../types/Subscription';
-import { UserSubscription } from '../../types/UserSubscription';
 
 interface MainHolderProps {
   setUserSubscriptions: React.Dispatch<React.SetStateAction<Subscription[]>>;
@@ -15,13 +14,12 @@ export const isSubInUserSubs = (subscription: Subscription, userSub: Subscriptio
 };
 
 const MainHolder= ({userSubscriptions, setUserSubscriptions}:MainHolderProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
 
   useEffect(() => {
-    fetch('http://localhost:3005/api/available')
+    fetch(`${apiUrl}/api/available`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -30,12 +28,9 @@ const MainHolder= ({userSubscriptions, setUserSubscriptions}:MainHolderProps) =>
       })
       .then(data => {
         setSubscriptions(data);
-        setIsLoading(false);
       })
       .catch(error => {
         console.error('Error fetching data: ', error);
-        setError(error.message);
-        setIsLoading(false);
       });
   }, []);
 

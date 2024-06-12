@@ -1,6 +1,5 @@
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Flex, useColorMode, Text, useColorModeValue, Box, IconButton  } from '@chakra-ui/react'
-import React from 'react'
 
 
 const Header = () => {
