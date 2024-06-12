@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   FormControl,
@@ -27,9 +27,10 @@ const LogisticsForm = () => {
       message: message
     };
     console.log('Logistics Data:', logisticsData);
-
+    const apiUrl = import.meta.env.VITE_API_URL;
+    
     try {
-      const response = await fetch('http://localhost:3005/api/available/submit', {
+      const response = await fetch(`${apiUrl}/api/available/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
