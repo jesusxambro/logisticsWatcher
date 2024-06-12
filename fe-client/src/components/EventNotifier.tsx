@@ -27,7 +27,7 @@ const EventNotifier: React.FC<EventNotifierProps> = ({ userSubscriptions }) => {
     let ws: WebSocket | null = null;
 
     const connectWebSocket = () => {
-      ws = new WebSocket(`ws://${apiWs}:3006`);
+      ws = new WebSocket(`wss://${apiWs}:3006`);
 
       ws.onopen = () => {
         console.log('WebSocket connected');
